@@ -1,18 +1,19 @@
 {
-  "name": "tempberry",
+  "name": "remoteberry",
   "version": "0.2.0",
-  "description": "A small application, which controls temperature of a connected real world system. Uses Tinkerforge modules and can be deployed on Raspberry Pis.",
+  "description": "A small application, which controls remote switches.",
   "author": "Patrick Wieth",
   "repository": {
     "type": "git",
     "url": "https://github.com/shitzensreal"
   },
   "dependencies": {
-    "tinkerforge":"*",
-    "node-pid-controller":"*",
-    "express":"*",
-    "body-parser":"*",
-    "q":"*",
-    "serve-static":"*"
+    "bluebird": "^3.5.0",
+    "body-parser": "*",
+    "express": "= 2.4.6",
+    "node-pid-controller": "*",
+    "ramda": "^0.24.1",
+    "tinkerforge": "*",
+    "socket.io": "= 1.4.3"
   }
 }

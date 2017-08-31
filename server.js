@@ -1,115 +1,86 @@
-/**
- * Created by prawda on 12.01.2015.
- */
 
-var Q = require('q');
-
-//controller stuff
-var pt100 = require('./PTC.js');
-var heater = require('./Heater.js');
-var pid = require('./PID.js');
-
-var controlling = false;
-var currentPower = 0;
-var currentTemp = 0;
-var targetTemp = 0;
+var R = require('ramda');
+var Promise = require("bluebird");
 
 //webserver stuff
-var app = require('express')();
-var http = require('http').Server(app);
-var serveStatic = require('serve-static');
-app.use(serveStatic('angular/app'));
+var express = require('express');
+var app = express.createServer();
 
-http.listen(8080, function(){
+// communicate via io
+var io = require('socket.io')(app);
 
-});
+//io.enable('browser client minification');  // send minified client
+//io.enable('browser client etag');          // apply etag caching logic based on version number
+//io.set('log level', 1);                    // reduce logging
 
-var bodyParser = require('body-parser');
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true
-}));
+var clients = [];
 
-app.post('/overview', function(req, res) {
-    if(req.body.msg == 'startstop') {
-        startStop();
-    }
-    else {
-        processPostData(req.body).then(function(result) { res.end(JSON.stringify(result)); } );
-    }
-});
+// Add a connect listener
+io.on('connection', function(client) {
 
-function processPostData(data) {
+    // user gets his unique key
+    var clientKey = clients.length + "_" + Math.floor(Math.random()*1000000000);
+    clients.push({key: clientKey, species: "none", color: ""});
+    client.send({key: clientKey});
+    console.log("registered client "+clientKey);
 
-    var receivedTarget = Number(data.msg);
+    // Success!  Now listen to messages to be received
+    client.on('message', function(event) {
 
-    if(typeof receivedTarget === 'number' && receivedTarget != targetTemp) {
-        targetTemp = receivedTarget;
-        console.log("New targetTemp temperature is: "+targetTemp);
-        pid.setTarget(targetTemp);
-    }
-    else {
-        if(typeof receivedTarget !== 'number') console.log("non number received", data.msg);
-    }
+        function validKey(event) {
+            if(typeof event.key === 'string') {
+                var id = clientId(event);
+                return (clients[id].key === event.key)
+            }
+            else return false;
+        }
 
-    currentTemp = pt100.getTemp();
-    var state = {temp: currentTemp, power: currentPower, time: new Date()};
+        function clientId(event) {
+            return event.key.split('_')[0];
+        }
 
-    return Q.fcall(function () {
-        return state;
+        if(event === 'on') {
+            remote.switchOn(31, 2);
+        }
+        if(event === 'off') {
+            remote.switchOff(31, 2);
+        }
+        if(event === 'stop') {
+            clearInterval(updateInterval);
+        }
+        
+
     });
-}
+    client.on('disconnect',function(){
+        //clearInterval(interval);
+        console.log('Client has disconnected');
+    });
 
-
-
-
-
-// heater power in W (a good value is the average of the power range, assumption ^^)
-var heaterAvgPower = 1000;
-// minimal and maximal values of heater
-var lowerPowerThreshold = 300;
-var upperPowerThreshold = 2000;
-
-// start or stop the controller
-function startStop() {
-    controlling = !controlling;
-}
-
-//control cycle
-var updateInterval = 2000;
-setInterval(control, updateInterval);
-
-// control function
-function control() {
-    //at first get current temperature
-    currentTemp = pt100.getTemp();
-
-    //check if controlling should be done
-    if(controlling)
-    {
-        //then push temp into pid and database
-        pid.feedData(currentTemp);
-
-        var powerTarget = heaterAvgPower * pid.getCorrection();
-        console.log("current temp:",currentTemp,"/",targetTemp,"powertarget:",powerTarget);
-
-        // adjust power to targetTemp
-        if(powerTarget < lowerPowerThreshold) heater.turnOff();
-        else if(powerTarget > upperPowerThreshold) {
-            heater.turnOn();
-            currentPower = heater.setPower(upperPowerThreshold);
-        }
-        else {
-            heater.turnOn();
-            currentPower = heater.setPower(powerTarget);
-        }
-    }
-}
-
-// shut down stuff on exit
-process.on('exit', function(code) {
-    heater.turnOff();
-    pt100.disconnect();
-    heater.disconnect();
 });
 
+
+var port = process.env.NODE_ENV === 'production' ? 80 : 8080;
+app.listen(port);
+console.log('server running at http://127.0.0.1:'+port+'/');
+
+app.configure(function () {
+    app.use(express.bodyParser());
+    app.use(express.static(__dirname + '/app'));
+});
+app.set("view options", { layout: false });
+
+app.get('/', function(req, res){
+    res.render('index.html');
+});
+
+var remote = require('./remote-switch.js');
+
+// updates of game come here:
+var timePerFrame = 1000;
+
+var updates = function() {
+
+    io.sockets.volatile.emit('state', [0,1]);
+};
+
+var updateInterval = setInterval(updates, timePerFrame);
