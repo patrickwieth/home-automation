@@ -40,20 +40,20 @@
 
     function switchOn(obj) {
         console.log(obj);
-        socket.send("on");
+        socket.send(obj);
     }
 
-    function switchOff() {
-        console.log("startUniv()");
+    function switchOff(id) {
+        console.log(id);
 
         if (d3.select("#startBtn").html() == "Start") {
-            d3.select("#startBtn").html("Pause");
-            socket.send("off");
+            d3.select("#startBtn").html("Pause");            
         }
         else {
             d3.select("#startBtn").html("Start");
-            socket.send("off");
         }
+
+        socket.send(id);
     }
 
     window.switchOn = switchOn;

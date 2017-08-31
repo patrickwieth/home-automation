@@ -39,11 +39,11 @@ io.on('connection', function(client) {
             return event.key.split('_')[0];
         }
 
-        if(event === 'on') {
-            remote.switchOn(31, 2);
+        if(event.type === 'on') {
+            remote.switchOn(event.house, event.item);
         }
-        if(event === 'off') {
-            remote.switchOff(31, 2);
+        if(event.type === 'off') {
+            remote.switchOff(event.house, event.item);
         }
         if(event === 'stop') {
             clearInterval(updateInterval);

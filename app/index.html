@@ -9,12 +9,12 @@
 <script src="js/main.js"></script>
 
 Esstisch Licht
-<button type="button" onClick="switchOn()">An</button>
-<button type="button" onClick="switchOff()" id='startBtn'>Aus</button>
+<button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 2})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 2})" id='startBtn'>Aus</button>
 <br>
 Wohnzimmer Stehlampe
-<button type="button" onClick="switchOn({'house': 31, 'item': 2})">An</button>
-<button type="button" onClick="switchOff("stehlampe")" id='startBtn'>Aus</button>
+<button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 3})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 3})" id='startBtn'>Aus</button>
 <br>
 
 </body>
