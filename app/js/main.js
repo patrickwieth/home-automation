@@ -38,7 +38,8 @@
          });*/
     }
 
-    function switchOn() {
+    function switchOn(obj) {
+        console.log(obj);
         socket.send("on");
     }
 
