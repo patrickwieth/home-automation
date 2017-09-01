@@ -39,6 +39,9 @@ io.on('connection', function(client) {
             return event.key.split('_')[0];
         }
 
+        if(event.type === 'flipflop') {
+            remote.flipflop(event.house, event.item);
+        }
         if(event.type === 'on') {
             remote.switchOn(event.house, event.item);
         }

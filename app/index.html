@@ -8,13 +8,28 @@
 <script src="/d3.v4.min.js"></script>
 <script src="js/main.js"></script>
 
+Lautsprecher
+<button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 1})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 1})" id='startBtn'>Aus</button>
+<br>
 Esstisch Licht
 <button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 2})">An</button>
 <button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 2})" id='startBtn'>Aus</button>
 <br>
 Wohnzimmer Stehlampe
-<button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 3})">An</button>
-<button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 3})" id='startBtn'>Aus</button>
+<button type="button" onClick="switchOn({'type': 'on', 'house': 31, 'item': 4})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 31, 'item': 4})" id='startBtn'>Aus</button>
+<br>
+Kaffeemaschine
+<button type="button" onClick="switchOn({'type': 'on', 'house': 7, 'item': 4})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 7, 'item': 4})" id='startBtn'>Aus</button>
+<br>
+Router neustarten
+<button type="button" onClick="trigger({'type': 'flipflop', 'house': 7, 'item': 31})">Yes</button>
+<br>
+Raspberry Pi
+<button type="button" onClick="switchOn({'type': 'on', 'house': 7, 'item': 31})">An</button>
+<button type="button" onClick="switchOff({'type':'off', 'house': 7, 'item': 31})" id='startBtn'>Aus</button>
 <br>
 
 </body>

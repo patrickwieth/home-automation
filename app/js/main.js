@@ -38,6 +38,11 @@
          });*/
     }
 
+    function trigger(obj) {
+        console.log(obj);
+        socket.send(obj);
+    }
+
     function switchOn(obj) {
         console.log(obj);
         socket.send(obj);
@@ -56,6 +61,7 @@
         socket.send(id);
     }
 
+    window.trigger = trigger;
     window.switchOn = switchOn;
     window.switchOff = switchOff;
 

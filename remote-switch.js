@@ -45,6 +45,13 @@ ipcon.on(Tinkerforge.IPConnection.CALLBACK_CONNECTED,
     }
 );
 
+function flipflop(houseCode, itemCode) {
+    switchRemote(houseCode, itemCode, Tinkerforge.BrickletRemoteSwitch.SWITCH_TO_OFF);
+    setTimeout(function() {
+        switchRemote(houseCode, itemCode, Tinkerforge.BrickletRemoteSwitch.SWITCH_TO_ON);
+    }, 500);
+}
+
 function switchOn(houseCode, itemCode) {
     switchRemote(houseCode, itemCode, Tinkerforge.BrickletRemoteSwitch.SWITCH_TO_ON);
 }
