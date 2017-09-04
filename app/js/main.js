@@ -84,8 +84,7 @@
     socket.on('humidity', function (humidity) {
         console.log(humidity);
         
-
-        tick(humidity/10);
+        window.tick(humidity/10);
     });
 
     function getLocalStorageItem(name) {
