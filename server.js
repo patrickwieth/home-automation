@@ -77,6 +77,11 @@ app.get('/', function(req, res){
 });
 
 var remote = require('./remote-switch.js');
+var humidity = require('./humidity.js');
+
+humidity.registerCallback(function(humidity) {
+    io.sockets.volatile.emit('humidity', humidity);
+})
 
 // updates of game come here:
 var timePerFrame = 1000;

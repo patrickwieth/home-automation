@@ -2,6 +2,7 @@
  * Created by prawda on 12.01.2015.
  */
 
+exports.flipflop = flipflop
 exports.switchOn = switchOn
 exports.switchOff = switchOff
 exports.disconnect = disconnect

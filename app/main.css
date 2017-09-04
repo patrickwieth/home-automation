@@ -11,6 +11,11 @@ rect{
     stroke:steelblue;
     cursor:pointer;
 }
+path.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
 select{
     width:80px;
 }

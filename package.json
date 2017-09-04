@@ -13,7 +13,7 @@
     "express": "= 2.4.6",
     "node-pid-controller": "*",
     "ramda": "^0.24.1",
-    "tinkerforge": "*",
-    "socket.io": "= 1.4.3"
+    "socket.io": "= 1.4.3",
+    "tinkerforge": "*"
   }
 }

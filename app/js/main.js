@@ -80,10 +80,10 @@
         }
     });
 
-    // state of the room
-    socket.on('state', function (data) {
-        //goL.setGrid(data);
-
+    // humidity update
+    socket.on('humidity', function (humidity) {
+        console.log(humidity);
+        data.push(humidity);
     });
 
     function getLocalStorageItem(name) {
