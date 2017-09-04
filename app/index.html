@@ -84,7 +84,9 @@ g.append("g")
   .transition()
     .duration(500)
     .ease(d3.easeLinear);
-    //.on("start", tick);
+    .on("start", tick);
+
+that = this;
 
 function tick() {
 
@@ -92,12 +94,12 @@ function tick() {
   //data.push(random());
 
   // Redraw the line.
-  d3.select(this)
+  d3.select(that)
       .attr("d", line)
       .attr("transform", null);
 
   // Slide it to the left.
-  d3.active(this)
+  d3.active(that)
       .attr("transform", "translate(" + x(-1) + ",0)")
     .transition();
       //.on("start", tick);
