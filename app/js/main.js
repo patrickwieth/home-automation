@@ -84,6 +84,23 @@
     socket.on('humidity', function (humidity) {
         console.log(humidity);
         data.push(humidity);
+
+        // Push a new data point onto the back.
+        //data.push(random());
+
+        // Redraw the line.
+        d3.select(this)
+            .attr("d", line)
+            .attr("transform", null);
+
+        // Slide it to the left.
+        d3.active(this)
+            .attr("transform", "translate(" + x(-1) + ",0)")
+            .transition();
+            //.on("start", tick);
+
+        // Pop the old data point off the front.
+        data.shift(); 
     });
 
     function getLocalStorageItem(name) {

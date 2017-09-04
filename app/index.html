@@ -54,7 +54,7 @@ var x = d3.scaleLinear()
     .range([0, width]);
 
 var y = d3.scaleLinear()
-    .domain([-1, 1])
+    .domain([0, 1000])
     .range([height, 0]);
 
 var line = d3.line()
@@ -83,13 +83,13 @@ g.append("g")
     .attr("class", "line")
   .transition()
     .duration(500)
-    .ease(d3.easeLinear)
-    .on("start", tick);
+    .ease(d3.easeLinear);
+    //.on("start", tick);
 
 function tick() {
 
   // Push a new data point onto the back.
-  data.push(random());
+  //data.push(random());
 
   // Redraw the line.
   d3.select(this)
@@ -99,8 +99,8 @@ function tick() {
   // Slide it to the left.
   d3.active(this)
       .attr("transform", "translate(" + x(-1) + ",0)")
-    .transition()
-      .on("start", tick);
+    .transition();
+      //.on("start", tick);
 
   // Pop the old data point off the front.
   data.shift();
