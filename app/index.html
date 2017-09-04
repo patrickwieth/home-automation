@@ -88,10 +88,11 @@ g.append("g")
 
 that = this;
 
-function tick() {
+function tick(humidity) {
 
   // Push a new data point onto the back.
   //data.push(random());
+  data.push(humidity);
 
   // Redraw the line.
   d3.select(that)

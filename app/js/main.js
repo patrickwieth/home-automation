@@ -83,9 +83,9 @@
     // humidity update
     socket.on('humidity', function (humidity) {
         console.log(humidity);
-        data.push(humidity);
         
-        tick();
+
+        tick(humidity/10);
     });
 
     function getLocalStorageItem(name) {
